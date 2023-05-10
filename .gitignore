@@ -1,3 +1,7 @@
+# Local
+.env
+env
+
 # Prerequisites
 *.d
 
