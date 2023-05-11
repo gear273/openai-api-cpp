@@ -61,8 +61,17 @@ Note: Wrap your API key in single quotes if an exception is raised due to the AP
 Here's a simple example of how to use the library:
 
 ```cpp
+// Retrieve the OpenAI API key from the environment variable
+const char *api_key = std::getenv("OPENAI_API_KEY");
+
+if (!api_key)
+{
+    std::cerr << "Error: OPENAI_API_KEY environment variable not set." << std::endl;
+    return 1;
+}
+
 // Create an instance of the OpenAI class
-OpenAI openai("your-openai-api-key");
+OpenAI openai(api_key);
 
 // Generate a completion
 cpr::Response response = openai.completions("Once upon a time");
