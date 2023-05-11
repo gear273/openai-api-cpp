@@ -1,5 +1,5 @@
 #include <iostream>
-#include "openai.h"
+#include "../include/openai.h"
 
 OpenAI::OpenAI(const std::string &api_key)
 	: api_key(api_key)

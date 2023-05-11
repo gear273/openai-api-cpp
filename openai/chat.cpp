@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include "openai.h"
+#include "../include/openai.h"
 
 int main()
 {

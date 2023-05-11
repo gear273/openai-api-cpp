@@ -12,8 +12,8 @@ LDFLAGS = -L$(CURDIR)/submodules/cpr/build/lib \
 CHAT_TARGET = chat
 LIB_TARGET = libopenai.so
 
-SOURCES = ./src/openai.cpp
-CHAT_SOURCES = ./src/chat.cpp
+SOURCES = ./openai/openai.cpp
+CHAT_SOURCES = ./openai/chat.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 CHAT_OBJECTS = $(CHAT_SOURCES:.cpp=.o)
