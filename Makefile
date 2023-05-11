@@ -3,22 +3,28 @@ CXX = g++
 CXXFLAGS = -I./submodules/cpr/include \
 	-I./submodules/cpr/build/cpr_generated_includes \
 	-I./submodules/json/single_include \
-	-Wall -Wextra -std=c++17
+	-Wall -Wextra -std=c++17 -fPIC
 
 LDFLAGS = -L$(CURDIR)/submodules/cpr/build/lib \
 	-Wl,-rpath=$(CURDIR)/submodules/cpr/build/lib \
 	-lcpr
 
-TARGET = chat
+CHAT_TARGET = chat
+LIB_TARGET = libopenai.so
 
-SOURCES = ./src/openai.cpp ./src/chat.cpp
+SOURCES = ./src/openai.cpp
+CHAT_SOURCES = ./src/chat.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
+CHAT_OBJECTS = $(CHAT_SOURCES:.cpp=.o)
 
-all: $(TARGET)
+all: $(LIB_TARGET)
 
-$(TARGET): $(OBJECTS) submodules/cpr/build/lib/libcpr.so
+$(CHAT_TARGET): $(OBJECTS) $(CHAT_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(LIB_TARGET): $(OBJECTS) submodules/cpr/build/lib/libcpr.so
+	$(CXX) $(CXXFLAGS) -shared -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -38,6 +44,6 @@ submodules/cpr/build/lib/libcpr.so: submodules/cpr
 	$(MAKE) -C submodules/cpr/build
 
 clean:
-	rm -f $(TARGET) $(OBJECTS)
+	rm -f $(CHAT_TARGET) $(LIB_TARGET) $(OBJECTS) $(CHAT_OBJECTS)
 
 .PHONY: all clones modules clean
