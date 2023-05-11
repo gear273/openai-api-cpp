@@ -15,15 +15,21 @@ This project relies on the following libraries:
 
 To build this project, you'll need to clone the repository and its submodules, then use `make` to build the library and sample applications.
 
+You can use the provided helper scripts to simplify the building process:
+
 ```sh
 # Clone the repository
 git clone https://github.com/teleprint-me/openai-api-cpp.git
+
 cd openai-api-cpp
 
 # Initialize and update submodules
 make modules
 
-# Build the library
+# Build the cpr objects
+./build_cpr.sh
+
+# Build the openai library
 make
 ```
 
@@ -37,6 +43,15 @@ make chat
 
 # Run the chat application (make sure to replace YOUR_OPENAI_API_KEY with your actual API key)
 OPENAI_API_KEY=YOUR_OPENAI_API_KEY ./chat
+```
+
+You can store your key in an environment variable and use the `run.sh` script as a short-hand:
+
+```sh
+# Create the environment file
+echo "OPENAI_API_KEY=YOUR_API_KEY" > .env
+# Build and run chat
+./run.sh
 ```
 
 ## Usage
@@ -55,3 +70,12 @@ std::cout << "Response: " << response.text << std::endl;
 ```
 
 Refer to the source code for more detailed usage examples.
+
+## Make Commands
+
+This project has several `make` commands to facilitate various operations:
+
+-   `make`: Builds the `libopenai.so` shared library.
+-   `make chat`: Builds the `chat` example application.
+-   `make modules`: Runs `git submodule update --init`, useful for initializing and updating submodules.
+-   `make clean`: Cleans up the built files.
