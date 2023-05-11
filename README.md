@@ -88,5 +88,6 @@ This project has several `make` commands to facilitate various operations:
 
 -   `make`: Builds the `libopenai.so` shared library.
 -   `make chat`: Builds the `chat` example application.
+-   `make build`: Builds both the `libopenai.so` shared library and `chat` example application.
 -   `make modules`: Runs `git submodule update --init`, useful for initializing and updating submodules.
 -   `make clean`: Cleans up the built files.
