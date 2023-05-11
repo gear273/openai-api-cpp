@@ -3,4 +3,4 @@
 make chat || exit
 source .env
 export OPENAI_API_KEY
-./chat
+./build/chat
