@@ -3,7 +3,7 @@
 env
 
 # Binary
-openai
+libopenai.so
 chat
 
 # Prerequisites
