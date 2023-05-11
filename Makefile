@@ -9,9 +9,9 @@ LDFLAGS = -L$(CURDIR)/submodules/cpr/build/lib \
 	-Wl,-rpath=$(CURDIR)/submodules/cpr/build/lib \
 	-lcpr
 
-TARGET = openai
+TARGET = chat
 
-SOURCES = ./src/openai.cpp
+SOURCES = ./src/openai.cpp ./src/chat.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
