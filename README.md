@@ -42,17 +42,19 @@ You can also build and run the example chat application:
 make chat
 
 # Run the chat application (make sure to replace YOUR_OPENAI_API_KEY with your actual API key)
-OPENAI_API_KEY=YOUR_OPENAI_API_KEY ./chat
+OPENAI_API_KEY='YOUR_OPENAI_API_KEY' ./chat
 ```
 
 You can store your key in an environment variable and use the `run.sh` script as a short-hand:
 
 ```sh
-# Create the environment file
-echo "OPENAI_API_KEY=YOUR_API_KEY" > .env
+# Create the environment file (.env) to store the OpenAI API key as an environment variable
+echo "OPENAI_API_KEY='YOUR_OPENAI_API_KEY'" > .env
 # Build and run chat
 ./run.sh
 ```
+
+Note: Wrap your API key in single quotes if an exception is raised due to the API key missing even while being present.
 
 ## Usage
 
