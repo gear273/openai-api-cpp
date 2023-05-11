@@ -34,9 +34,8 @@ modules:
 
 submodules/cpr/build/lib/libcpr.so: submodules/cpr
 	mkdir -p submodules/cpr/build
-	cd submodules/cpr/build
-	cmake ..
-	make
+	cd submodules/cpr/build && cmake ..
+	$(MAKE) -C submodules/cpr/build
 
 clean:
 	rm -f $(TARGET) $(OBJECTS)
