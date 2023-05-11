@@ -21,9 +21,18 @@ private:
 
 public:
 	OpenAI(const std::string &api_key);
+
 	cpr::Response models();
-	cpr::Response completions(const std::string &prompt);
-	cpr::Response chat_completions(const std::vector<std::string> &messages);
+
+	cpr::Response completions(const std::string &prompt,
+							  const std::string &model = "text-davinci-003",
+							  int max_tokens = 16,
+							  float temperature = 0.7);
+
+	cpr::Response chat_completions(const std::vector<std::string> &messages,
+								   const std::string &model = "gpt-3.5-turbo",
+								   int max_tokens = 512,
+								   float temperature = 0.7);
 };
 
 #endif

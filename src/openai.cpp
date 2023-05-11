@@ -20,18 +20,43 @@ cpr::Response OpenAI::models()
 	return cpr::Get(cpr::Url{OpenAI_API::MODELS}, get_headers());
 }
 
-cpr::Response OpenAI::completions(const std::string &prompt)
+cpr::Response OpenAI::completions(const std::string &prompt,
+								  const std::string &model,
+								  int max_tokens,
+								  float temperature)
 {
-	cpr::Payload payload = {
-		{"prompt", prompt}};
+	nlohmann::json j = {
+		{"model", model},
+		{"prompt", prompt},
+		{"max_tokens", max_tokens},
+		{"temperature", temperature}};
 
-	return cpr::Post(cpr::Url{OpenAI_API::COMPLETIONS}, get_headers(), payload);
+	std::string payload = j.dump();
+
+	return cpr::Post(
+		cpr::Url{OpenAI_API::COMPLETIONS},
+		get_headers(),
+		cpr::Body{payload});
 }
 
-cpr::Response OpenAI::chat_completions(const std::vector<std::string> &messages)
+cpr::Response OpenAI::chat_completions(const std::vector<std::string> &messages,
+									   const std::string &model,
+									   int max_tokens,
+									   float temperature)
 {
-	cpr::Payload payload = {
-		{"messages", messages}};
+	nlohmann::json j;
 
-	return cpr::Post(cpr::Url{OpenAI_API::CHAT_COMPLETIONS}, get_headers(), payload);
+	for (const auto &message : messages)
+	{
+		j["messages"].push_back({{"role", "user"},
+								 {"content", message}});
+	}
+
+	j["model"] = model;
+	j["max_tokens"] = max_tokens;
+	j["temperature"] = temperature;
+
+	std::string payload = j.dump();
+
+	return cpr::Post(cpr::Url{OpenAI_API::CHAT_COMPLETIONS}, get_headers(), cpr::Body{payload});
 }
