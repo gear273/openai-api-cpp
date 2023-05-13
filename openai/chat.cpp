@@ -27,7 +27,7 @@ int main()
 	while (true)
 	{
 		// Prompt the user for input
-		std::cout << "Enter a user message: ";
+		std::cout << "User: ";
 		std::string user_message;
 		std::getline(std::cin, user_message);
 
@@ -53,7 +53,7 @@ int main()
 			// Add model's message to the messages vector
 			messages.push_back(model_message);
 
-			std::cout << "Model's response: " << model_message << std::endl;
+			std::cout << "GPT: " << model_message << std::endl;
 		}
 		else
 		{
