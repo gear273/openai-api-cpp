@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "openai-api-cpp"
+version = "0.0.1"
+description = "A C++ wrapper for the OpenAI API."
+authors = ["teleprint-me <77757836+teleprint-me@users.noreply.github.com>"]
+license = "AGPL"
+readme = "README.md"
+packages = [{include = "openai_api_cpp"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "^7.3.1"
+pybind11 = "^2.10.4"
+tiktoken = "^0.4.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+flake8 = "^6.0.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
