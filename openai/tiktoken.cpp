@@ -3,39 +3,49 @@
 namespace py = pybind11;
 
 // Constructor
-TikToken::TikToken(const std::string &model)
+TikToken::TikToken(void)
 {
     py::module tiktoken = py::module::import("tiktoken");
-    py::object TikToken = tiktoken.attr("TikToken");
-    this->tiktoken_instance = TikToken(model);
 }
 
 // Get the encoding type
-std::string TikToken::get_encoding()
+std::string TikToken::get_encoding(const std::string &string)
 {
-    return this->tiktoken_instance.attr("get_encoding")().cast<std::string>();
+    py::object Encoding = tiktoken.attr("get_encoding");
+    return Encoding(string).cast<std::string>();
+}
+
+std::string TikToken::get_encoding_for_model(const std::string &string)
+{
+    py::object Encoding = tiktoken.attr("encoding_for_model");
+    return Encoding(string).cast<std::string>();
 }
 
 // Encode a message
 std::vector<int> TikToken::encode(const std::string &message)
 {
-    return this->tiktoken_instance.attr("encode")(message).cast<std::vector<int>>();
-}
-
-// Count the number of tokens in a string
-int TikToken::num_tokens_from_string(const std::string &string)
-{
-    return this->tiktoken_instance.attr("num_tokens_from_string")(string).cast<int>();
+    py::object Encoding = tiktoken.attr("get_encoding");
+    return Encoding(message).cast<std::vector<int>>();
 }
 
 // Decode a message
 std::string TikToken::decode(const std::vector<int> &tokens)
 {
-    return this->tiktoken_instance.attr("decode")(tokens).cast<std::string>();
+    py::object Encoding = tiktoken.attr("get_encoding");
+    return Encoding(tokens).cast<std::string>();
 }
 
 // Decode a single token
 std::string TikToken::decode_single_token_bytes(int token)
 {
-    return this->tiktoken_instance.attr("decode_single_token_bytes")(token).cast<std::string>();
+    py::object Encoding = tiktoken.attr("get_encoding");
+    return Encoding(token).cast<std::string>();
+}
+
+// Count the number of tokens in a string
+int TikToken::get_token_count(const std::string &string, const std::string &encoder_name)
+{
+    py::object Encoding = tiktoken.attr("get_encoding");
+    py::object encoded = Encoding(string);
+    return len(encoded).cast<int>();
 }

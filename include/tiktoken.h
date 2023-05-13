@@ -11,22 +11,24 @@ class TikToken
 {
 public:
     // Constructor
-    TikToken(const std::string &model);
+    TikToken(void);
 
     // Get the encoding type
-    std::string get_encoding();
+    std::string get_encoding(const std::string &string);
+
+    std::string get_encoding_for_model(const str::string &string);
 
     // Encode a message
     std::vector<int> encode(const std::string &message);
-
-    // Count the number of tokens in a string
-    int get_token_count(const std::string &string);
 
     // Decode a message
     std::string decode(const std::vector<int> &tokens);
 
     // Decode a single token
     std::string decode_single_token_bytes(int token);
+
+    // Count the number of tokens in a string
+    int get_token_count(const std::string &string, const std::string &encoder_name);
 };
 
 #endif
