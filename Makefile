@@ -42,6 +42,7 @@ build: library chat
 clones:
 	git submodule add https://github.com/whoshuu/cpr.git submodules/cpr
 	git submodule add https://github.com/nlohmann/json submodules/json
+	git submodule add https://github.com/pybind/pybind11.git submodules/pybind11
 	git submodule init
 	git submodule update
 
