@@ -1,11 +1,29 @@
 {
-    "editor.defaultFormatter": "ms-vscode.cpptools",
-    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "clang-format.executable": "/usr/bin/clang-format",
     "[cpp]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true
     },
     "[c]": {
-        "editor.defaultFormatter": "ms-vscode.cpptools"
+        "editor.defaultFormatter": "xaver.clang-format",
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true
+    },
+    "[makefile]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": false,
+        "editor.formatOnPaste": true,
+        "editor.formatOnType": true,
+        "editor.trimAutoWhitespace": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": true
+        }
     },
     "files.associations": {
         "any": "cpp",
