@@ -9,14 +9,18 @@
 
 class TikToken
 {
+private:
+    pybind11::object tiktoken;
+    pybind11::object Encoding;
+
 public:
     // Constructor
     TikToken(void);
 
     // Get the encoding type
-    std::string get_encoding(const std::string &string);
+    pybind11::object get_encoding(const std::string &string);
 
-    std::string get_encoding_for_model(const str::string &string);
+    pybind11::object get_encoding_for_model(const std::string &string);
 
     // Encode a message
     std::vector<int> encode(const std::string &message);
