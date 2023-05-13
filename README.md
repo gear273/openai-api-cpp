@@ -26,8 +26,8 @@ cd openai-api-cpp
 # Initialize and update submodules
 make modules
 
-# Build the cpr objects
-./build_cpr.sh
+# Build the cpr and pybind11 objects
+./build.sh
 
 # Build the openai library
 make
