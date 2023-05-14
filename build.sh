@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Prompt user to choose submodule to build
-echo "Which submodule would you like to build?"
-echo "1. cpr"
-echo "2. cpp-tiktoken"
-echo "3. pybind11"
+# Prompt user to choose module to build
+echo "Which module would you like to build?"
+echo "1. cpr (submodule)"
+echo "2. cpp-tiktoken (submodule)"
+echo "3. openai-api-cpp (module)"
 
 read -p "Enter your choice (1, 2, or 3): " choice
 
@@ -32,14 +32,13 @@ case $choice in
     ;;
 
   3)
-    # Build pybind11 submodule
-    cd submodules/pybind11 || (echo "Error: Missing 'submodules/pybind11'" && exit 1)
+    # Build openai-api-cpp module
     mkdir -p build
     cd build || (echo "Error: Building 'submodules/pybind11' failed" && exit 1)
     cmake ..
-    make check -j 4
+    make
 
-    echo "pybind11 submodule build completed."
+    echo "openai-api-cpp build completed."
     ;;
 
 

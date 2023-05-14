@@ -9,7 +9,7 @@ CXXFLAGS = -I./submodules/cpr/include \
 
 LDFLAGS = -L$(CURDIR)/submodules/cpr/build/lib \
 	-Wl,-rpath=$(CURDIR)/submodules/cpr/build/lib \
-	-lcpr -lpython3.11
+	-lcpr
 
 TOKEN_COUNTER_BUILD_TARGET = build/token_counter
 CHAT_BUILD_TARGET = build/chat
@@ -33,7 +33,7 @@ $(CHAT_BUILD_TARGET): $(OBJECTS) $(CHAT_OBJECTS) $(TIKTOKEN_OBJECTS) submodules/
 
 $(TOKEN_COUNTER_BUILD_TARGET): $(OBJECTS) $(TOKEN_COUNTER_OBJECTS) $(TIKTOKEN_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	mkdir -p build
-	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -o $@ $^ $(LDFLAGS) $(python3-config --extension-suffix)
+	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(LIB_BUILD_TARGET): $(OBJECTS) $(TIKTOKEN_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	mkdir -p build/lib
