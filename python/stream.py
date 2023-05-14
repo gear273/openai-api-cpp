@@ -103,11 +103,11 @@ def main():
         try:
             # Ask the user for their message
             user_message = input("\nYou: ")
-        except (
-            KeyboardInterrupt,
-            EOFError,
-        ):
+        except (KeyboardInterrupt, EOFError):
             exit()
+
+        if not user_message:
+            continue
 
         if user_message == "quit":
             exit()
@@ -118,7 +118,7 @@ def main():
         print("\nGPT:", end=" ")
 
         # Call the streaming API
-        assistant_message = openai.stream_chat_completions(messages)
+        assistant_message = openai.stream_chat_completions(messages, model=model)
 
         # If the function returned a message, add it to the conversation
         if assistant_message is not None:
