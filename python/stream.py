@@ -1,3 +1,6 @@
+# NOTE: This is just a prototype to work out the details of interacting with
+# the chat completions API using the `stream` flag while set to `True`.
+# This will be the basis for the C++ port of this implementation.
 import json
 import os
 import sys
@@ -42,15 +45,20 @@ class OpenAI:
             "model": model,
             "max_tokens": max_tokens,
             "temperature": temperature,
-            "stream": True,  # Enable streaming
+            "stream": True,  # Enable REST API streaming
             "messages": messages,
         }
+
         response = requests.post(
-            self.chat_completions_url, headers=self.headers, json=data, stream=True
+            self.chat_completions_url,
+            headers=self.headers,
+            json=data,
+            stream=True,  # Enable HTTP token streaming
         )
 
         if response.status_code == 200:
             message = ""
+            # Iterate over the response data one line at a time
             for line in response.iter_lines():
                 # If the line is not empty
                 if line:
@@ -68,6 +76,7 @@ class OpenAI:
 
                     json_line = json.loads(line)
 
+                    # Aggregate and flush the tokens to output
                     try:
                         token = json_line["choices"][0]["delta"]["content"]
                         if token:
@@ -100,21 +109,24 @@ def main():
     ]
 
     while True:
+        # Ask the user for their message
         try:
-            # Ask the user for their message
-            user_message = input("\nYou: ")
+            user_message = input("You: ")
         except (KeyboardInterrupt, EOFError):
             exit()
 
+        # Block and prompt user again if the input is empty
         if not user_message:
             continue
 
+        # Allow user to exit normally
         if user_message == "quit":
             exit()
 
         # Add the user message to the conversation
         messages.append({"role": "user", "content": user_message})
 
+        # Use a prompt to identify GPT's output
         print("\nGPT:", end=" ")
 
         # Call the streaming API
@@ -124,11 +136,19 @@ def main():
         if assistant_message is not None:
             messages.append(assistant_message)
 
-        print()  # output a newline character
+        print("\n")  # output newline characters
 
+        # Calculate the total number of tokens enqueued
         encoding = tiktoken.encoding_for_model(model)
         token_count = get_token_count(encoding.name, messages=messages)
-        print(f"Consumed {token_count} tokens.")
+        print(f"Consumed {token_count} tokens.\n")
+
+        # Dequeue messages to prevent overflow
+        #   - pop the second element to preserve the system prompt.
+        #   - gpt-3.5-turbo context window: `upper_limit = 4096 - max_tokens`
+        #   - gpt-4 context window: `upper_limit = 8192 - max_tokens`
+        while token_count >= 3584:
+            messages.pop(1)
 
 
 if __name__ == "__main__":
