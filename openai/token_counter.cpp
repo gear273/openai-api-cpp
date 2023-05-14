@@ -1,8 +1,7 @@
-#include <iostream>
 #include "../include/tiktoken.h"
+#include <iostream>
 
-int main()
-{
+int main() {
     // Create an instance of the TikToken class
     TikToken tiktoken;
 
@@ -17,7 +16,8 @@ int main()
     // Count the number of tokens in the string
     int token_count = tiktoken.get_token_count(input, encoding);
 
-    std::cout << "The string '" << input << "' contains " << token_count << " tokens." << std::endl;
+    std::cout << "The string '" << input << "' contains " << token_count
+              << " tokens." << std::endl;
 
     return 0;
 }
