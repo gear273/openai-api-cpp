@@ -1,8 +1,8 @@
 CXX = g++
 
-CXXFLAGS = -I/usr/include/python3.11 \
-	-I./submodules/pybind11/include \
-	-I./submodules/cpr/include \
+DEBUG_CXXFLAGS = -g -O0
+
+CXXFLAGS = -I./submodules/cpr/include \
 	-I./submodules/cpr/build/cpr_generated_includes \
 	-I./submodules/json/single_include \
 	-Wall -Wextra -std=c++17 -fPIC
@@ -29,15 +29,15 @@ all: $(LIB_BUILD_TARGET)
 
 $(CHAT_BUILD_TARGET): $(OBJECTS) $(CHAT_OBJECTS) $(TIKTOKEN_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	mkdir -p build
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TOKEN_COUNTER_BUILD_TARGET): $(OBJECTS) $(TOKEN_COUNTER_OBJECTS) $(TIKTOKEN_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	mkdir -p build
-	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -o $@ $^ $(LDFLAGS) $(python3-config --extension-suffix)
 
 $(LIB_BUILD_TARGET): $(OBJECTS) $(TIKTOKEN_OBJECTS) submodules/cpr/build/lib/libcpr.so
 	mkdir -p build/lib
-	$(CXX) $(CXXFLAGS) -shared -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -shared -o $@ $^ $(LDFLAGS)
 	mkdir -p build/include
 	cp include/openai.h build/include/
 	cp include/tiktoken.h build/include/
@@ -51,12 +51,12 @@ token_counter: $(TOKEN_COUNTER_BUILD_TARGET)
 build: library chat token_counter
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(DEBUG_CXXFLAGS) -c $< -o $@
 
 clones:
 	git submodule add https://github.com/whoshuu/cpr.git submodules/cpr
 	git submodule add https://github.com/nlohmann/json submodules/json
-	git submodule add https://github.com/pybind/pybind11.git submodules/pybind11
+	git submodule add https://github.com/gh-markt/cpp-tiktoken.git submodules/cpp-tiktoken
 	git submodule init
 	git submodule update
 
